@@ -1,12 +1,19 @@
 package com.github.ameen.emplyeemanagement.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.github.ameen.emplyeemanagement.R
+import androidx.appcompat.app.AppCompatActivity
+import com.github.ameen.emplyeemanagement.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private var _binding: ActivityMainBinding? = null
+    val binding get() = _binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
     }
 }

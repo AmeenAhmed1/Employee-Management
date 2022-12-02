@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">emplyee management</string>
+    <string name="search_here_for_employee">Search here for employee</string>
+    <string name="add_employee">Add Employee</string>
+    <string name="employee_name">Employee Name</string>
+    <string name="employee_email">EmployeeEmail@gmail.com</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="no_employee_data">No Employee data</string>
 </resources>
