@@ -44,6 +44,8 @@ class CreateEditFragment : Fragment() {
     private val skills: ArrayList<SkillData> = arrayListOf()
     private val selectedSkills: ArrayList<Int> = arrayListOf()
 
+    private var employeeImage: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,6 +89,7 @@ class CreateEditFragment : Fragment() {
     private fun initViewForEdit(selectedEmployeeData: EmployeeDomainData) {
         selectedEmployeeData.employeeImage?.let {
             binding?.employeeImage?.loadEmployeeImage(it)
+            employeeImage = it
         }
 
         selectedEmployeeData.employeeName.let {
@@ -133,12 +136,14 @@ class CreateEditFragment : Fragment() {
                 inputData = inputData.copy(
                     employeeName = name,
                     employeeEmail = email,
+                    employeeImage = employeeImage,
                     employeeSkills = selectedSkills
                 )
             else
                 inputData = EmployeeDomainData(
                     employeeName = name,
                     employeeEmail = email,
+                    employeeImage = employeeImage,
                     employeeSkills = selectedSkills
                 )
 
@@ -210,7 +215,7 @@ class CreateEditFragment : Fragment() {
 
         imageFileData.observe(viewLifecycleOwner) {
             binding?.employeeImage?.loadEmployeeImage(it.toString())
-            inputData.employeeImage = it.toString()
+            employeeImage = it.toString()
         }
     }
 }
