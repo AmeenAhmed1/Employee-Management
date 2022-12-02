@@ -51,7 +51,7 @@ class EmployeeAdapter() : RecyclerView.Adapter<EmployeeAdapter.EmployeeItemViewH
         }
 
         currentEmployee.employeeImage?.let {
-            holder.binding.employeeImage.loadEmployeeImage(currentEmployee.employeeImage)
+            holder.binding.employeeImage.loadEmployeeImage(currentEmployee.employeeImage ?: "")
         }
 
         holder.binding.deleteEmployeeButton.setOnClickListener {

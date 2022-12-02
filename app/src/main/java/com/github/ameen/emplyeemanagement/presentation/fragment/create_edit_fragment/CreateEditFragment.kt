@@ -124,7 +124,7 @@ class CreateEditFragment : Fragment() {
         else
             null
 
-        val image: String? = imageFileData.value.toString().ifBlank { null }
+//        val image: String? = imageFileData.value.toString().ifBlank { null }
 
         if (binding?.employeeNameInput?.text?.isNotEmpty() == true) {
             name = binding?.employeeNameInput?.text?.toString() ?: ""
@@ -133,14 +133,12 @@ class CreateEditFragment : Fragment() {
                 inputData = inputData.copy(
                     employeeName = name,
                     employeeEmail = email,
-                    employeeImage = image,
                     employeeSkills = selectedSkills
                 )
             else
                 inputData = EmployeeDomainData(
                     employeeName = name,
                     employeeEmail = email,
-                    employeeImage = image,
                     employeeSkills = selectedSkills
                 )
 
@@ -212,6 +210,7 @@ class CreateEditFragment : Fragment() {
 
         imageFileData.observe(viewLifecycleOwner) {
             binding?.employeeImage?.loadEmployeeImage(it.toString())
+            inputData.employeeImage = it.toString()
         }
     }
 }

@@ -6,6 +6,6 @@ data class EmployeeDomainData(
     val employeeId: Int? = null,
     val employeeName: String,
     val employeeEmail: String? = null,
-    val employeeImage: String? = null,
+    var employeeImage: String? = null,
     val employeeSkills: List<Int> = listOf()
 ) : Serializable
