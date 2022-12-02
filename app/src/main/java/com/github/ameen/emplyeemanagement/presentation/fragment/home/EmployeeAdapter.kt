@@ -54,12 +54,16 @@ class EmployeeAdapter() : RecyclerView.Adapter<EmployeeAdapter.EmployeeItemViewH
             holder.binding.employeeImage.loadEmployeeImage(currentEmployee.employeeImage)
         }
 
+        holder.binding.deleteEmployeeButton.setOnClickListener {
+            onItemClickListener?.invoke(currentEmployee, true)
+        }
+
     }
 
     override fun getItemCount(): Int = diff.currentList.size
 
-    private var onItemClickListener: ((EmployeeDomainData) -> Unit)? = null
-    fun onItemClicked(listener: (EmployeeDomainData) -> Unit) {
+    private var onItemClickListener: ((EmployeeDomainData, Boolean) -> Unit)? = null
+    fun onItemClicked(listener: (EmployeeDomainData, Boolean) -> Unit) {
         onItemClickListener = listener
     }
 }

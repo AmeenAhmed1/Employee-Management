@@ -9,9 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.ameen.emplyeemanagement.R
 import com.github.ameen.emplyeemanagement.databinding.FragmentHomeBinding
+import com.github.ameen.emplyeemanagement.domain.model.EmployeeDomainData
 import com.github.ameen.emplyeemanagement.presentation.util.hide
 import com.github.ameen.emplyeemanagement.presentation.util.show
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -53,8 +56,27 @@ class HomeFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
+
+        employeeAdapter.onItemClicked { employeeDomainData, isDelete ->
+            if (isDelete) handleDeleteEmployee(employeeDomainData)
+        }
     }
 
+    private fun handleDeleteEmployee(employeeDomainData: EmployeeDomainData) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Are you sure to delete ${employeeDomainData.employeeName}?")
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                lifecycleScope.launchWhenStarted {
+                    homeViewModel.deleteEmployee(employeeDomainData).collectLatest {
+                        getEmployees()
+                    }
+                }
+            }
+            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+                dialog.cancel()
+            }
+            .show()
+    }
 
     private fun getEmployees() {
         homeViewModel.getAllEmployees()

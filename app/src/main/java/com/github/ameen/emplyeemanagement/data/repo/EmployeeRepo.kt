@@ -18,4 +18,8 @@ class EmployeeRepo @Inject constructor(
     override suspend fun getAllEmployee(): List<EmployeeDomainData> {
         return local.employeeDao().getAllEmployees().map { it.toDomain() }
     }
+
+    override suspend fun deleteEmployee(employeeData: EmployeeDomainData) {
+        local.employeeDao().deleteEmployee(employeeData.toEntity())
+    }
 }
