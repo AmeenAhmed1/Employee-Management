@@ -10,8 +10,8 @@ interface EmployeeDao {
     suspend fun insertEmployee(employeeData: EmployeeEntity): Long
 
     @Transaction
-    @Query("SELECT * FROM EmployeeTable")
-    suspend fun getAllEmployees(): List<EmployeeEntity>
+    @Query("SELECT * FROM EmployeeTable WHERE employeeName LIKE ('%' || :employeeName || '%')")
+    suspend fun getAllEmployees(employeeName: String): List<EmployeeEntity>
 
     @Delete
     suspend fun deleteEmployee(employeeData: EmployeeEntity)

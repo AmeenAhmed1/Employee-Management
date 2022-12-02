@@ -21,8 +21,8 @@ class HomeViewModel @Inject constructor(
     private val _employeeData: MutableSharedFlow<List<EmployeeDomainData>> = MutableSharedFlow()
     val employeeData = _employeeData
 
-    fun getAllEmployees() = viewModelScope.launch(coroutineContext) {
-        getAllEmployeesUseCase.execute().collectLatest {
+    fun getAllEmployees(employeeName: String) = viewModelScope.launch(coroutineContext) {
+        getAllEmployeesUseCase.execute(employeeName).collectLatest {
             _employeeData.emit(it)
         }
     }

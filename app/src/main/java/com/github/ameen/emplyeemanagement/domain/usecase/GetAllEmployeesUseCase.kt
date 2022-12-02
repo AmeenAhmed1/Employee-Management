@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetAllEmployeesUseCase @Inject constructor(private val repo: IEmployeeRepo) {
-    suspend fun execute(): Flow<List<EmployeeDomainData>> {
+    suspend fun execute(employeeName: String): Flow<List<EmployeeDomainData>> {
         return flow {
-            emit(repo.getAllEmployee())
+            emit(repo.getAllEmployee(employeeName))
         }
     }
 }

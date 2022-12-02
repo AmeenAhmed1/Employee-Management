@@ -15,8 +15,8 @@ class EmployeeRepo @Inject constructor(
         return local.employeeDao().insertEmployee(employeeData.toEntity())
     }
 
-    override suspend fun getAllEmployee(): List<EmployeeDomainData> {
-        return local.employeeDao().getAllEmployees().map { it.toDomain() }
+    override suspend fun getAllEmployee(employeeName: String): List<EmployeeDomainData> {
+        return local.employeeDao().getAllEmployees(employeeName).map { it.toDomain() }
     }
 
     override suspend fun deleteEmployee(employeeData: EmployeeDomainData) {

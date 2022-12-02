@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +31,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var employeeAdapter: EmployeeAdapter
 
+    private var employeeSearchName: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +46,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecycler()
+        handleSearchEmployee()
 
         binding?.addEmployeeButton?.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToCreateEditFragment()
@@ -62,6 +67,28 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun handleSearchEmployee() {
+        binding?.searchEditText?.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (binding?.searchEditText?.text?.toString()?.isNotEmpty() == true) {
+                    employeeSearchName = binding?.searchEditText?.text?.toString() ?: ""
+                    getEmployees()
+                }
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        binding?.searchEditText?.doOnTextChanged { text, start, before, count ->
+            if (before == 1) text?.let {
+                if (it.isEmpty()) {
+                    employeeSearchName = ""
+                    getEmployees()
+                }
+            }
+        }
+    }
+
     private fun handleDeleteEmployee(employeeDomainData: EmployeeDomainData) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Are you sure to delete ${employeeDomainData.employeeName}?")
@@ -79,7 +106,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getEmployees() {
-        homeViewModel.getAllEmployees()
+        homeViewModel.getAllEmployees(employeeSearchName)
 
         lifecycleScope.launchWhenStarted {
             homeViewModel.employeeData.collectLatest {
