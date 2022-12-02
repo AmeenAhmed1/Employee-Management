@@ -48,10 +48,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     implementation "androidx.activity:activity-ktx:1.6.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
@@ -72,4 +74,10 @@ dependencies {
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glideVerion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //Gson
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }
