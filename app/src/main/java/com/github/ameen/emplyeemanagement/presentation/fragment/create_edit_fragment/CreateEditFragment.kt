@@ -100,10 +100,7 @@ class CreateEditFragment : Fragment() {
         else
             null
 
-        val image: String? = if (imageFileData.value.toString().isBlank())
-            imageFileData.value.toString()
-        else
-            null
+        val image: String? = imageFileData.value.toString().ifBlank { null }
 
         if (binding?.employeeNameInput?.text?.isNotEmpty() == true) {
             name = binding?.employeeNameInput?.text?.toString() ?: ""
