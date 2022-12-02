@@ -27,6 +27,7 @@
     - [Retrofit](https://square.github.io/retrofit/) - Is type-safe REST client for Android which aims to make it easier
       to consume RESTful web services.
     - [Glide](https://bumptech.github.io/glide/) - An image loading and caching library for Android.
+    - [ImagePicker](https://github.com/Drjacky/ImagePicker) - An image picker library for Android.
       <br />
 
 ## Architecture 🗼
