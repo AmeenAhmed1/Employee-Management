@@ -13,4 +13,6 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CornerRoundedImageStyle" parent="ShapeAppearance.Material3.Corner.Medium" />
 </resources>

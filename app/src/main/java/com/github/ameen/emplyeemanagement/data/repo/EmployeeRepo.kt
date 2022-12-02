@@ -11,8 +11,8 @@ class EmployeeRepo @Inject constructor(
     private val local: AppDatabase
 ) : IEmployeeRepo {
 
-    override suspend fun insertEmployee(employeeData: EmployeeDomainData) {
-        local.employeeDao().insertEmployee(employeeData.toEntity())
+    override suspend fun addEmployee(employeeData: EmployeeDomainData): Long {
+        return local.employeeDao().insertEmployee(employeeData.toEntity())
     }
 
     override suspend fun getAllEmployee(): List<EmployeeDomainData> {

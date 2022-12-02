@@ -16,6 +16,13 @@
     </fragment>
     <fragment
         android:id="@+id/createEditFragment"
-        android:name="com.github.ameen.emplyeemanagement.presentation.fragment.CreateEditFragment"
-        android:label="CreateEditFragment" />
+        android:name="com.github.ameen.emplyeemanagement.presentation.fragment.create_edit_fragment.CreateEditFragment"
+        android:label="CreateEditFragment"
+        tools:layout="@layout/fragment_add_edit_employee" >
+        <argument
+            android:name="employeeData"
+            app:argType="com.github.ameen.emplyeemanagement.domain.model.EmployeeDomainData"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

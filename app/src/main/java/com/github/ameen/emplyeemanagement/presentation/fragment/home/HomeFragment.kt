@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ameen.emplyeemanagement.databinding.FragmentHomeBinding
 import com.github.ameen.emplyeemanagement.presentation.util.hide
@@ -39,6 +40,10 @@ class HomeFragment : Fragment() {
 
         initRecycler()
 
+        binding?.addEmployeeButton?.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToCreateEditFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun initRecycler() {

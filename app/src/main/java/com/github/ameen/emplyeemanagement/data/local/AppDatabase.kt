@@ -11,7 +11,7 @@ import com.github.ameen.emplyeemanagement.data.local.entity.SkillsEntity
 
 @Database(
     entities = [EmployeeEntity::class, SkillsEntity::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(SkillsListTypeConverter::class)

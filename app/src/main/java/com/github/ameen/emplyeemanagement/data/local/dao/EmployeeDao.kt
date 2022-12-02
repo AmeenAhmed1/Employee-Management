@@ -7,7 +7,7 @@ import com.github.ameen.emplyeemanagement.data.local.entity.EmployeeEntity
 interface EmployeeDao {
 
     @Insert
-    suspend fun insertEmployee(employeeData: EmployeeEntity)
+    suspend fun insertEmployee(employeeData: EmployeeEntity): Long
 
     @Transaction
     @Query("SELECT * FROM EmployeeTable")

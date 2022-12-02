@@ -10,5 +10,5 @@ data class EmployeeEntity(
     val employeeName: String,
     val employeeEmail: String? = null,
     val employeeImage: String? = null,
-    val employeeSkills: List<Int>? = null
+    val employeeSkills: List<Int> = listOf()
 )
