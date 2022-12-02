@@ -72,16 +72,17 @@ class CreateEditFragment : Fragment() {
     private fun getInputData() {
 
         var name: String = ""
-        var email: String? = null
-        var image: String? = null
         var skills: ArrayList<Int> = arrayListOf()
 
-        email = if (binding?.employeeEmailInput?.text?.isNotEmpty() == true)
+        val email: String? = if (binding?.employeeEmailInput?.text?.isNotEmpty() == true)
             binding?.employeeEmailInput?.text?.toString()
         else
             null
 
-        image = (imageFileData.value.toString())
+        val image: String? = if (imageFileData.value.toString().isBlank())
+            imageFileData.value.toString()
+        else
+            null
 
         if (binding?.employeeNameInput?.text?.isNotEmpty() == true) {
             name = binding?.employeeNameInput?.text?.toString() ?: ""
