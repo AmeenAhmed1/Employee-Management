@@ -10,4 +10,11 @@
     <string name="employee_email_hint">Employee Email (OPTIONAL)</string>
     <string name="save">Save</string>
     <string name="name_is_required_error">Name is required</string>
+
+    <string name="select_image">Select Image</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="image_options">
+        <item>Select photo from gallery</item>
+        <item>Capture photo from camera</item>
+    </string-array>
 </resources>

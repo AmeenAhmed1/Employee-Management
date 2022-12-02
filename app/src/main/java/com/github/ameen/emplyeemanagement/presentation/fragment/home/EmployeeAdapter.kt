@@ -50,7 +50,7 @@ class EmployeeAdapter() : RecyclerView.Adapter<EmployeeAdapter.EmployeeItemViewH
             holder.binding.employeeEmail.text = currentEmployee.employeeEmail
         }
 
-        if (currentEmployee.employeeImage != null) {
+        currentEmployee.employeeImage?.let {
             holder.binding.employeeImage.loadEmployeeImage(currentEmployee.employeeImage)
         }
 

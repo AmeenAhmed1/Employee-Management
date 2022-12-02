@@ -1,17 +1,21 @@
 package com.github.ameen.emplyeemanagement.presentation.fragment.create_edit_fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.ameen.emplyeemanagement.R
 import com.github.ameen.emplyeemanagement.databinding.FragmentAddEditEmployeeBinding
 import com.github.ameen.emplyeemanagement.domain.model.EmployeeDomainData
+import com.github.ameen.emplyeemanagement.presentation.util.SelectImageUtil
+import com.github.ameen.emplyeemanagement.presentation.util.loadEmployeeImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -30,11 +34,15 @@ class CreateEditFragment : Fragment() {
         args.employeeData
     }
 
+    private val imageFileData = MutableLiveData<Uri>()
+    lateinit var imageUtil: SelectImageUtil
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        imageUtil = SelectImageUtil(this, imageFileData)
         _binding = FragmentAddEditEmployeeBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -46,6 +54,9 @@ class CreateEditFragment : Fragment() {
             getInputData()
         }
 
+        binding?.employeeImage?.setOnClickListener {
+            handleEmployeeImage()
+        }
 
         lifecycleScope.launchWhenStarted {
             createEditViewModel.employeeDataInsertionState.collectLatest {
@@ -70,12 +81,15 @@ class CreateEditFragment : Fragment() {
         else
             null
 
+        image = (imageFileData.value.toString())
+
         if (binding?.employeeNameInput?.text?.isNotEmpty() == true) {
             name = binding?.employeeNameInput?.text?.toString() ?: ""
 
             inputData = EmployeeDomainData(
                 employeeName = name,
-                employeeEmail = email
+                employeeEmail = email,
+                employeeImage = image
             )
 
             createEditViewModel.addNewEmployee(inputData)
@@ -84,5 +98,13 @@ class CreateEditFragment : Fragment() {
             binding?.employeeName?.error = getString(R.string.name_is_required_error)
 
 
+    }
+
+    private fun handleEmployeeImage() {
+        imageUtil.selectImage()
+
+        imageFileData.observe(viewLifecycleOwner) {
+            binding?.employeeImage?.loadEmployeeImage(it.toString())
+        }
     }
 }
