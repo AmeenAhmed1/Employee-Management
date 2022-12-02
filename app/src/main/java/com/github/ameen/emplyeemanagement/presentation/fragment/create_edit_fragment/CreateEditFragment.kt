@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +15,11 @@ import androidx.navigation.fragment.navArgs
 import com.github.ameen.emplyeemanagement.R
 import com.github.ameen.emplyeemanagement.databinding.FragmentAddEditEmployeeBinding
 import com.github.ameen.emplyeemanagement.domain.model.EmployeeDomainData
+import com.github.ameen.emplyeemanagement.domain.model.SkillData
 import com.github.ameen.emplyeemanagement.presentation.util.SelectImageUtil
 import com.github.ameen.emplyeemanagement.presentation.util.loadEmployeeImage
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -37,6 +41,9 @@ class CreateEditFragment : Fragment() {
     private val imageFileData = MutableLiveData<Uri>()
     lateinit var imageUtil: SelectImageUtil
 
+    private val skills: ArrayList<SkillData> = arrayListOf()
+    private val selectedSkills: ArrayList<Int> = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +57,8 @@ class CreateEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleSkills()
+
         employeeData?.let {
             initViewForEdit(it)
         }
@@ -57,6 +66,8 @@ class CreateEditFragment : Fragment() {
 
         binding?.saveEmployeeButton?.setOnClickListener {
             getInputData()
+
+            Timber.e("Id: $selectedSkills")
         }
 
         binding?.employeeImage?.setOnClickListener {
@@ -124,6 +135,61 @@ class CreateEditFragment : Fragment() {
             binding?.employeeName?.error = getString(R.string.name_is_required_error)
 
 
+    }
+
+    private fun handleSkills() {
+
+        val skillsName: ArrayList<String> = arrayListOf()
+
+        createEditViewModel.getAllSkills()
+
+        lifecycleScope.launchWhenStarted {
+            createEditViewModel.skillsDataState.collectLatest {
+                if (it.isNotEmpty()) {
+                    skills.addAll(it)
+
+                    skills.forEach {
+                        skillsName.add(it.skillName)
+                    }
+                }
+            }
+        }
+
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            skillsName
+        )
+
+        binding?.skillsInput?.setAdapter(adapter)
+        binding?.skillsInput?.setOnItemClickListener { parent, _, position, _ ->
+            val selectedSkillPosition = parent.getItemAtPosition(position) as String
+            addPlanetChip(selectedSkillPosition)
+        }
+    }
+
+    private fun addPlanetChip(selectedSkill: String) {
+//        selectedPlanets.add(planetName)
+
+//        val selectedId = skills.filter {
+//            it.skillName.equals(selectedSkills)
+//        }
+
+//        selectedSkills.add(selectedId[0].skillId ?: 0)
+        binding?.skillShips?.addView(getChip(selectedSkill))
+    }
+
+    private fun getChip(name: String): Chip {
+        return Chip(requireContext()).apply {
+            text = name
+            isCloseIconVisible = true
+            chipBackgroundColor = resources.getColorStateList(android.R.color.holo_blue_dark)
+            setTextColor(resources.getColor(R.color.white))
+            setOnCloseIconClickListener {
+                (it.parent as ChipGroup).removeView(it)
+            }
+        }
     }
 
     private fun handleEmployeeImage() {

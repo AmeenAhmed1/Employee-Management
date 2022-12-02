@@ -1,0 +1,28 @@
+{
+  "skills": [
+    {
+      "skillId": 1,
+      "skillName": "ASP.net"
+    },
+    {
+      "skillId": 2,
+      "skillName": "Android"
+    },
+    {
+      "skillId": 3,
+      "skillName": "IOS"
+    },
+    {
+      "skillId": 4,
+      "skillName": "Kotlin"
+    },
+    {
+      "skillId": 5,
+      "skillName": "Java"
+    },
+    {
+      "skillId": 6,
+      "skillName": "PHP"
+    }
+  ]
+}

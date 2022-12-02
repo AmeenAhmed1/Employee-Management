@@ -14,6 +14,7 @@
     <string name="select_image">Select Image</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="skills">Skills</string>
     <string-array name="image_options">
         <item>Select photo from gallery</item>
         <item>Capture photo from camera</item>
