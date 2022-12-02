@@ -20,4 +20,8 @@ class SkillsRepo @Inject constructor(
         return SkillsDomainData(skills)
     }
 
+    override suspend fun getSpecificSkill(skillId: Int): SkillData {
+        return local.skillsDao().getSpecificSkill(skillId).toDomain()
+    }
+
 }

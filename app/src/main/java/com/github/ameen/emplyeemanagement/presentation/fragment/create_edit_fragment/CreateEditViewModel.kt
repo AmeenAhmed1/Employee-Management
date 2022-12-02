@@ -5,16 +5,19 @@ import com.github.ameen.emplyeemanagement.domain.model.EmployeeDomainData
 import com.github.ameen.emplyeemanagement.domain.model.SkillData
 import com.github.ameen.emplyeemanagement.domain.usecase.AddNewEmployeeUseCase
 import com.github.ameen.emplyeemanagement.domain.usecase.GetAllSkillsUseCase
+import com.github.ameen.emplyeemanagement.domain.usecase.GetSpecificSkillUseCase
 import com.github.ameen.emplyeemanagement.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateEditViewModel @Inject constructor(
     private val addNewEmployeeUseCase: AddNewEmployeeUseCase,
-    private val getAllSkillsUseCase: GetAllSkillsUseCase
+    private val getAllSkillsUseCase: GetAllSkillsUseCase,
+    private val getSpecificSkillUseCase: GetSpecificSkillUseCase
 ) : BaseViewModel() {
 
     private val _employeeDataInsertionState: MutableSharedFlow<Long> = MutableSharedFlow()
@@ -32,4 +35,11 @@ class CreateEditViewModel @Inject constructor(
         val result = getAllSkillsUseCase.execute()
         _skillsDataState.emit(result.data)
     }
+
+    fun getSpecificSkill(skillId: Int) =
+        flow {
+            val result = getSpecificSkillUseCase.execute(skillId)
+            emit(result)
+        }
+
 }

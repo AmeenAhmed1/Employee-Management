@@ -97,14 +97,27 @@ class CreateEditFragment : Fragment() {
             binding?.employeeEmailInput?.setText(it)
         }
 
+        selectedEmployeeData.employeeSkills.forEach {
+            getSkill(it)
+        }
+
+
         inputData = selectedEmployeeData
+    }
+
+    private fun getSkill(skillId: Int) {
+        lifecycleScope.launchWhenStarted {
+            createEditViewModel.getSpecificSkill(skillId).collectLatest {
+                skills.add(it)
+                addSkillShip(it.skillName)
+            }
+        }
     }
 
     private lateinit var inputData: EmployeeDomainData
     private fun getInputData() {
 
         var name: String = ""
-        var skills: ArrayList<Int> = arrayListOf()
 
         val email: String? = if (binding?.employeeEmailInput?.text?.isNotEmpty() == true)
             binding?.employeeEmailInput?.text?.toString()
@@ -120,13 +133,15 @@ class CreateEditFragment : Fragment() {
                 inputData = inputData.copy(
                     employeeName = name,
                     employeeEmail = email,
-                    employeeImage = image
+                    employeeImage = image,
+                    employeeSkills = selectedSkills
                 )
             else
                 inputData = EmployeeDomainData(
                     employeeName = name,
                     employeeEmail = email,
-                    employeeImage = image
+                    employeeImage = image,
+                    employeeSkills = selectedSkills
                 )
 
             createEditViewModel.addNewEmployee(inputData)
@@ -143,7 +158,7 @@ class CreateEditFragment : Fragment() {
 
         createEditViewModel.getAllSkills()
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             createEditViewModel.skillsDataState.collectLatest {
                 if (it.isNotEmpty()) {
                     skills.addAll(it)
@@ -165,18 +180,18 @@ class CreateEditFragment : Fragment() {
         binding?.skillsInput?.setAdapter(adapter)
         binding?.skillsInput?.setOnItemClickListener { parent, _, position, _ ->
             val selectedSkillPosition = parent.getItemAtPosition(position) as String
-            addPlanetChip(selectedSkillPosition)
+            addSkillShip(selectedSkillPosition)
         }
     }
 
-    private fun addPlanetChip(selectedSkill: String) {
-//        selectedPlanets.add(planetName)
+    private fun addSkillShip(selectedSkill: String) {
 
-//        val selectedId = skills.filter {
-//            it.skillName.equals(selectedSkills)
-//        }
+        val selectedSkillIndex = skills.filter {
+            it.skillName == selectedSkill
+        }
 
-//        selectedSkills.add(selectedId[0].skillId ?: 0)
+        selectedSkills.add(selectedSkillIndex[0].skillId ?: 0)
+
         binding?.skillShips?.addView(getChip(selectedSkill))
     }
 
