@@ -50,6 +50,11 @@ class CreateEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        employeeData?.let {
+            initViewForEdit(it)
+        }
+
+
         binding?.saveEmployeeButton?.setOnClickListener {
             getInputData()
         }
@@ -66,6 +71,22 @@ class CreateEditFragment : Fragment() {
                     findNavController().popBackStack()
             }
         }
+    }
+
+    private fun initViewForEdit(selectedEmployeeData: EmployeeDomainData) {
+        selectedEmployeeData.employeeImage?.let {
+            binding?.employeeImage?.loadEmployeeImage(it)
+        }
+
+        selectedEmployeeData.employeeName.let {
+            binding?.employeeNameInput?.setText(it)
+        }
+
+        selectedEmployeeData.employeeEmail?.let {
+            binding?.employeeEmailInput?.setText(it)
+        }
+
+        inputData = selectedEmployeeData
     }
 
     private lateinit var inputData: EmployeeDomainData
@@ -87,11 +108,18 @@ class CreateEditFragment : Fragment() {
         if (binding?.employeeNameInput?.text?.isNotEmpty() == true) {
             name = binding?.employeeNameInput?.text?.toString() ?: ""
 
-            inputData = EmployeeDomainData(
-                employeeName = name,
-                employeeEmail = email,
-                employeeImage = image
-            )
+            if (employeeData != null)
+                inputData = inputData.copy(
+                    employeeName = name,
+                    employeeEmail = email,
+                    employeeImage = image
+                )
+            else
+                inputData = EmployeeDomainData(
+                    employeeName = name,
+                    employeeEmail = email,
+                    employeeImage = image
+                )
 
             createEditViewModel.addNewEmployee(inputData)
 

@@ -62,9 +62,15 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        employeeAdapter.onItemClicked { employeeDomainData, isDelete ->
-            if (isDelete) handleDeleteEmployee(employeeDomainData)
+        employeeAdapter.onItemClicked { selectedEmployeeData, isDelete ->
+            if (isDelete) handleDeleteEmployee(selectedEmployeeData)
+            else handleEditEmployee(selectedEmployeeData)
         }
+    }
+
+    private fun handleEditEmployee(employeeData: EmployeeDomainData) {
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateEditFragment(employeeData)
+        findNavController().navigate(action)
     }
 
     private fun handleSearchEmployee() {

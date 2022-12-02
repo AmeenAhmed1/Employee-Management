@@ -64,7 +64,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/add_employee_button"
+            android:id="@+id/edit_employee_button"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_4sdp"

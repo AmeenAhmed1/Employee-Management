@@ -58,6 +58,10 @@ class EmployeeAdapter() : RecyclerView.Adapter<EmployeeAdapter.EmployeeItemViewH
             onItemClickListener?.invoke(currentEmployee, true)
         }
 
+        holder.binding.editEmployeeButton.setOnClickListener {
+            onItemClickListener?.invoke(currentEmployee, false)
+        }
+
     }
 
     override fun getItemCount(): Int = diff.currentList.size

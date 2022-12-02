@@ -6,7 +6,7 @@ import com.github.ameen.emplyeemanagement.data.local.entity.EmployeeEntity
 @Dao
 interface EmployeeDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEmployee(employeeData: EmployeeEntity): Long
 
     @Transaction
